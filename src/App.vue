@@ -39,6 +39,7 @@ const paisesFiltrados = computed(() => {
       class="search"
     />
 
+    
     <p v-if="cargando">⏳ Cargando países...</p>
 
     <div v-else class="grid">
@@ -62,6 +63,11 @@ const paisesFiltrados = computed(() => {
   max-width:1200px;
   margin:auto;
   text-align:center;
+  
+  body{
+  font-family: Arial, Helvetica, sans-serif;
+  background:#f4f6f8;
+  }
 }
 
 .search{
