@@ -63,11 +63,11 @@ const paisesFiltrados = computed(() => {
   max-width:1200px;
   margin:auto;
   text-align:center;
-  
-  body{
+}
+
+body{
   font-family: Arial, Helvetica, sans-serif;
   background:#f4f6f8;
-  }
 }
 
 .search{
