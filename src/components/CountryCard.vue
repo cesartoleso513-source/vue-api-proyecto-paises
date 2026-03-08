@@ -24,11 +24,11 @@ export default {
 
 <style>
 .card{
-  border:1px solid #ddd;
-  border-radius:10px;
+  border:none;
+  border-radius:12px;
   padding:15px;
   background:white;
-  box-shadow:0 2px 5px rgba(0,0,0,0.1);
+  box-shadow:0 10px 25px rgba(0,0,0,0.1);
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
