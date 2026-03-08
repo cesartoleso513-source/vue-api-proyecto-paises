@@ -29,6 +29,12 @@ export default {
   padding:15px;
   background:white;
   box-shadow:0 2px 5px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover{
+  transform: translateY(-5px);
+  box-shadow:0 8px 20px rgba(0,0,0,0.2);
 }
 
 .card img{
