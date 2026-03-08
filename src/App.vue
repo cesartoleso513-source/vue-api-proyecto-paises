@@ -5,7 +5,7 @@ import CountryCard from "./components/CountryCard.vue"
 const paises = ref([])
 const cargando = ref(true)
 const busqueda = ref("")
-const region = ref("")
+const region = ref("") // Variable para el filtro de región
 
 onMounted(async () => {
   try {
@@ -20,66 +20,109 @@ onMounted(async () => {
   }
 })
 
+// Lógica de filtrado combinada
 const paisesFiltrados = computed(() => {
-  return paises.value.filter(p =>
-    p.name.common.toLowerCase().includes(busqueda.value.toLowerCase()) ||
-    (p.region && p.region.toLowerCase().includes(busqueda.value.toLowerCase()))
-  )
+  return paises.value.filter(p => {
+    // Filtro por nombre
+    const coincideNombre = p.name.common.toLowerCase().includes(busqueda.value.toLowerCase())
+    
+    // Filtro por región (si region está vacío, muestra todos)
+    const coincideRegion = region.value === "" || p.region === region.value
+    
+    return coincideNombre && coincideRegion
+  })
 })
 </script>
 
 <template>
   <div class="container">
-
     <h1>🌎 Explorador de Países</h1>
 
-    <input
-      v-model="busqueda"
-      placeholder="Buscar país..."
-      class="search"
-    />
+    <div class="controles">
+      <input 
+        v-model="busqueda" 
+        placeholder="Buscar país..." 
+        class="search"
+      />
 
-    
-    <p v-if="cargando">⏳ Cargando países...</p>
+      <select v-model="region" class="region-filter">
+        <option value="">Todas las regiones</option>
+        <option value="Africa">África</option>
+        <option value="Americas">América</option>
+        <option value="Asia">Asia</option>
+        <option value="Europe">Europa</option>
+        <option value="Oceania">Oceanía</option>
+      </select>
+    </div>
+
+    <p v-if="cargando">⌛ Cargando países...</p>
 
     <div v-else class="grid">
-      <CountryCard
-        v-for="pais in paisesFiltrados"
-        :key="pais.name.common"
-        :pais="pais"
+      <CountryCard 
+        v-for="pais in paisesFiltrados" 
+        :key="pais.name.common" 
+        :pais="pais" 
       />
     </div>
 
     <p v-if="!cargando && paisesFiltrados.length === 0">
       No se encontraron países
     </p>
-
   </div>
 </template>
 
-<style>
-
-.container{
-  max-width:1200px;
-  margin:auto;
-  text-align:center;
+<style scoped>
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  text-align: center;
 }
 
-body{
-  font-family: Arial, Helvetica, sans-serif;
-  background:#f4f6f8;
+h1 {
+  margin-bottom: 30px;
+  font-size: 2.5rem;
+  color: #1a1a1a;
 }
 
-.search{
-  padding:10px;
-  width:300px;
-  margin:20px;
+.controles {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
 }
 
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
-  gap:20px;
+.search, .region-filter {
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
+.search {
+  flex: 1;
+  max-width: 400px;
+}
+
+.region-filter {
+  cursor: pointer;
+  background-color: white;
+}
+
+.search:focus, .region-filter:focus {
+  border-color: #007aff;
+  box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);
+}
+
+.grid {
+  display: grid;
+  /* Grid responsivo: ajusta columnas automáticamente según el ancho */
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 30px;
+  padding: 20px 0;
+}
 </style>
