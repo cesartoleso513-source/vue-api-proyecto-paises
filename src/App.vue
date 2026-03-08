@@ -5,6 +5,7 @@ import CountryCard from "./components/CountryCard.vue"
 const paises = ref([])
 const cargando = ref(true)
 const busqueda = ref("")
+const region = ref("")
 
 onMounted(async () => {
   try {
